@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InsertSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Algorithms_Maven</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.sort</a> &gt; <span class="el_source">InsertSort.java</span></div><h1>InsertSort.java</h1><pre class="source lang-java linenums">package com.app.numbers.sort;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * The type Insert sort.
+ *
+ * @param &lt;T&gt; the type parameter
+ */
+<span class="fc" id="L13">@NoArgsConstructor</span>
+public class InsertSort&lt;T extends Comparable&lt;T&gt;&gt; implements Sort&lt;T&gt;{
+
+
+    public List&lt;T&gt; sort(List&lt;T&gt; list, Comparator&lt;T&gt; comparator){
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if(list == null){</span>
+<span class="fc" id="L20">            throw new IllegalArgumentException(&quot;List is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if(list.isEmpty()){</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;List is empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if(comparator == null){</span>
+<span class="fc" id="L28">            throw new IllegalArgumentException(&quot;Comparator is null&quot;);</span>
+        }
+
+<span class="fc" id="L31">        var sortedList = new ArrayList&lt;&gt;(list);</span>
+
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (int i = 1; i &lt; sortedList.size(); i++) {</span>
+
+<span class="fc" id="L35">            var key = sortedList.get(i);</span>
+<span class="fc" id="L36">            var j = i - 1;</span>
+
+<span class="fc bfc" id="L38" title="All 4 branches covered.">            while (j &gt;= 0 &amp;&amp; (comparator.compare(sortedList.get(j), key) &gt; 0)){</span>
+<span class="fc" id="L39">                sortedList.set(j + 1, sortedList.get(j));</span>
+<span class="fc" id="L40">                j--;</span>
+            }
+<span class="fc" id="L42">            sortedList.set(j + 1, key);</span>
+        }
+
+<span class="fc" id="L45">        return sortedList;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

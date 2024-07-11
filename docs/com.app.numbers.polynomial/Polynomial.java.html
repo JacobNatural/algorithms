@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Polynomial.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Algorithms_Maven</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.polynomial</a> &gt; <span class="el_source">Polynomial.java</span></div><h1>Polynomial.java</h1><pre class="source lang-java linenums">package com.app.numbers.polynomial;
+import lombok.*;
+
+/**
+ * The type Polynomial.
+ */
+<span class="fc" id="L7">@RequiredArgsConstructor(access = AccessLevel.PRIVATE)</span>
+<span class="nc bnc" id="L8" title="All 8 branches missed.">@EqualsAndHashCode</span>
+<span class="nc" id="L9">@ToString</span>
+public class Polynomial {
+
+    private final double[] coefficients;
+
+    /**
+     * Of polynomial.
+     *
+     * @param coefficients the coefficients
+     * @return the polynomial
+     */
+    public static Polynomial of(double[] coefficients){
+
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if(coefficients == null){</span>
+<span class="fc" id="L23">            throw new IllegalArgumentException(&quot;Coefficients are null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if(coefficients.length == 0){</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Coefficients are empty&quot;);</span>
+        }
+
+<span class="fc" id="L30">        return new Polynomial(coefficients);</span>
+    }
+
+
+    /**
+     * Calculate double.
+     *
+     * @param x the x
+     * @return the double
+     */
+    public double calculate(double x) {
+
+<span class="fc" id="L42">        var result = coefficients[0];</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (int i = 1; i &lt; coefficients.length; i++) {</span>
+<span class="fc" id="L45">            result = result * x + coefficients[i];</span>
+        }
+
+<span class="fc" id="L48">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Keys.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Algorithms_Maven</a> &gt; <a href="index.source.html" class="el_package">com.app.cipher.rsa_cipher</a> &gt; <span class="el_source">Keys.java</span></div><h1>Keys.java</h1><pre class="source lang-java linenums">package com.app.cipher.rsa_cipher;
+
+import lombok.AllArgsConstructor;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+
+/**
+ * The type Keys.
+ */
+<span class="fc" id="L14">@AllArgsConstructor</span>
+public class Keys {
+
+    /**
+     * The Public key.
+     */
+    final BigInteger publicKey;
+    /**
+     * The Private key.
+     */
+    final BigInteger privateKey;
+    /**
+     * The Key 2.
+     */
+    final BigInteger key2;
+
+
+    /**
+     * Of keys.
+     *
+     * @return the keys
+     */
+    public static Keys of(){
+
+<span class="fc" id="L38">        var keys = generateKeys();</span>
+<span class="fc" id="L39">       return new Keys(keys.get(0), keys.get(1), keys.get(2));</span>
+    }
+
+    /**
+     * Generate keys list.
+     *
+     * @return the list
+     */
+    static List&lt;BigInteger&gt; generateKeys() {
+
+<span class="fc" id="L49">        var primeNumbers = GeneratePrimeNumbers.generate(500);</span>
+<span class="fc" id="L50">        var p =  primeNumbers.get(new Random().nextInt(0, primeNumbers.size()));</span>
+<span class="fc" id="L51">        var q = primeNumbers.get(new Random().nextInt(0, primeNumbers.size()));</span>
+<span class="fc" id="L52">        var key2 = BigInteger.valueOf(p).multiply(BigInteger.valueOf(q));</span>
+<span class="fc" id="L53">        var funEuler = BigInteger.valueOf(p - 1).multiply(BigInteger.valueOf(q - 1));</span>
+<span class="fc" id="L54">        var publicKey = findRelativelyPrimeNumber(funEuler, primeNumbers);</span>
+<span class="fc" id="L55">        var privateKey = publicKey.modInverse(funEuler);</span>
+<span class="fc" id="L56">        return  new ArrayList&lt;&gt;(List.of(publicKey,privateKey,key2));</span>
+    }
+
+    private static BigInteger findRelativelyPrimeNumber(BigInteger funEuler, List&lt;Integer&gt; primeNumbers) {
+
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        for (var x : primeNumbers) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (funEuler.remainder(BigInteger.valueOf(x)).compareTo(BigInteger.ZERO) &gt; 0) {</span>
+
+<span class="fc" id="L64">                return BigInteger.valueOf(x);</span>
+            }
+<span class="fc" id="L66">        }</span>
+<span class="nc" id="L67">        throw new IllegalArgumentException(&quot;we could not get relatively prime number!!&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

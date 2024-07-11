@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MergeSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Algorithms_Maven</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.sort</a> &gt; <span class="el_source">MergeSort.java</span></div><h1>MergeSort.java</h1><pre class="source lang-java linenums">package com.app.numbers.sort;
+
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+
+/**
+ * The type Merge sort.
+ *
+ * @param &lt;T&gt; the type parameter
+ */
+<span class="fc" id="L15">@NoArgsConstructor</span>
+public class MergeSort&lt;T extends Comparable&lt;T&gt;&gt; implements   Sort&lt;T&gt;{
+
+    public List&lt;T&gt; sort(List&lt;T&gt; list, Comparator&lt;T&gt; comparator){
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if(list == null){</span>
+<span class="fc" id="L21">            throw new IllegalArgumentException(&quot;List is null&quot;);</span>
+        }
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if(list.isEmpty()){</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;List is empty&quot;);</span>
+        }
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if(comparator == null){</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Comparator is null&quot;);</span>
+        }
+
+<span class="fc" id="L30">        var sortedList = new ArrayList&lt;&gt;(list);</span>
+<span class="fc" id="L31">        mergeSort(sortedList, 0, sortedList.size() -1,comparator);</span>
+
+<span class="fc" id="L33">        return sortedList;</span>
+    }
+
+    private static &lt;T&gt; void mergeSort(List&lt;T&gt; list, int begin, int end, Comparator&lt;T&gt;comparator){
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if(begin &lt; end){</span>
+<span class="fc" id="L39">            var middle = (begin + end) / 2;</span>
+<span class="fc" id="L40">            mergeSort(list, begin, middle,comparator);</span>
+<span class="fc" id="L41">            mergeSort(list, middle + 1, end, comparator);</span>
+<span class="fc" id="L42">            merge(list, begin, middle, end, comparator);</span>
+        }
+<span class="fc" id="L44">    }</span>
+
+    private static &lt;T&gt; void merge(List&lt;T&gt; list, int begin, int middle, int end, Comparator&lt;T&gt; comparator){
+
+<span class="fc" id="L48">        var extraArr = new ArrayList&lt;&gt;(list);</span>
+
+<span class="fc" id="L50">        var finger1 = begin;</span>
+<span class="fc" id="L51">        var finger2 = middle + 1;</span>
+<span class="fc" id="L52">        var current = begin;</span>
+
+<span class="fc bfc" id="L54" title="All 4 branches covered.">        while (finger1 &lt;= middle &amp;&amp; finger2 &lt;= end){</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if(comparator.compare(extraArr.get(finger1), extraArr.get(finger2)) &lt; 0){</span>
+<span class="fc" id="L56">                list.set(current, extraArr.get(finger1));</span>
+<span class="fc" id="L57">                finger1++;</span>
+            }else {
+<span class="fc" id="L59">                list.set(current, extraArr.get(finger2));</span>
+<span class="fc" id="L60">                finger2++;</span>
+            }
+<span class="fc" id="L62">            current++;</span>
+        }
+
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        while (finger1 &lt;= middle){</span>
+<span class="fc" id="L66">            list.set(current, extraArr.get(finger1));</span>
+<span class="fc" id="L67">            finger1++;</span>
+<span class="fc" id="L68">            current++;</span>
+        }
+<span class="fc" id="L70">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

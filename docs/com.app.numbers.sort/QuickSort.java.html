@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuickSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Algorithms_Maven</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.sort</a> &gt; <span class="el_source">QuickSort.java</span></div><h1>QuickSort.java</h1><pre class="source lang-java linenums">package com.app.numbers.sort;
+
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * The type Quick sort.
+ *
+ * @param &lt;T&gt; the type parameter
+ */
+<span class="fc" id="L14">@NoArgsConstructor</span>
+public class QuickSort&lt;T extends Comparable&lt;T&gt;&gt; implements Sort&lt;T&gt;{
+    public List&lt;T&gt; sort(List&lt;T&gt; list, Comparator&lt;T&gt; comparator){
+
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if(list == null){</span>
+<span class="fc" id="L19">            throw new IllegalArgumentException(&quot;List is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if(list.isEmpty()){</span>
+<span class="fc" id="L23">            throw new IllegalArgumentException(&quot;List is empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if(comparator == null){</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Comparator is null&quot;);</span>
+        }
+
+<span class="fc" id="L30">        var sortedList = new ArrayList&lt;&gt;(list);</span>
+<span class="fc" id="L31">        sort(sortedList,0, sortedList.size() - 1  , comparator);</span>
+
+<span class="fc" id="L33">        return sortedList;</span>
+    }
+    private static&lt;T&gt; void sort(List&lt;T&gt; list, int left, int right, Comparator&lt;T&gt; comparator) {
+
+<span class="fc" id="L37">        var pivot = list.get((left + right) / 2);</span>
+<span class="fc" id="L38">        var i = left;</span>
+<span class="fc" id="L39">        var j = right;</span>
+
+        do {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            while (comparator.compare(list.get(i), pivot) &lt; 0){</span>
+<span class="fc" id="L43">                i++;</span>
+            }
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            while (comparator.compare(list.get(j), pivot) &gt; 0){</span>
+<span class="fc" id="L46">                j--;</span>
+            }
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">            if (i &lt;= j) {</span>
+<span class="fc" id="L49">                var tmp = list.get(i);</span>
+<span class="fc" id="L50">                list.set(i,  list.get(j));</span>
+<span class="fc" id="L51">                list.set(j,  tmp);</span>
+<span class="fc" id="L52">                i++;</span>
+<span class="fc" id="L53">                j--;</span>
+            }
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        } while (i &lt;= j);</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (j &gt; left) {</span>
+<span class="fc" id="L59">            sort(list, left, j, comparator);</span>
+        }
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (i &lt; right) {</span>
+<span class="fc" id="L62">            sort(list, i, right, comparator);</span>
+        }
+<span class="fc" id="L64">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
