@@ -6,13 +6,13 @@ Welcome to the Java Algorithms Collection! This repository houses various basic 
 Cipher
 ### Package: Cipher
 
-#### [Caesar Cipher](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/cipher/caesar_cipher/CaesarCipher.java)
+#### Class: [Caesar Cipher](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/cipher/caesar_cipher/CaesarCipher.java)
 - A basic encryption technique where each letter in the plaintext is shifted a certain number of places down or up the alphabet.
 
-#### [Replacement Cipher](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/cipher/replacement_cipher/ReplacementCipher.java)
+#### Class: [Replacement Cipher](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/cipher/replacement_cipher/ReplacementCipher.java)
 - An encryption method where each letter in the plaintext is replaced with another letter.
 
-#### [RSA Cipher](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/cipher/rsa_cipher/RSACipher.java)
+#### Class: [RSA Cipher](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/cipher/rsa_cipher/RSACipher.java)
 - A public-key encryption algorithm that uses two different keys, one for encryption and one for decryption.
 
 ### Package: Geometry
@@ -57,11 +57,11 @@ Cipher
 
 #### Subpackage: fibo
 
-##### Class: [FibonacciBinet](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/numbers/fibo/FibonacciBinet.java)
+#### Class: [FibonacciBinet](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/numbers/fibo/FibonacciBinet.java)
 - Method:
     - value: Calculate Fibonacci sequence using Binet's formula
 
-##### Class: [FibonacciDynamic](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/numbers/fibo/FibonacciDynamic.java)
+#### Class: [FibonacciDynamic](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/numbers/fibo/FibonacciDynamic.java)
 - Method:
     - value: Calculate Fibonacci sequence dynamically
 
