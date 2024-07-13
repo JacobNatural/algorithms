@@ -3,7 +3,7 @@
 Welcome to the Java Algorithms Collection! This repository houses various basic algorithms organized into different packages to facilitate learning and exploration.
 
 ## Packages and Algorithms Included
-Cipher
+
 ### Package: Cipher
 
 #### Class: [Caesar Cipher](https://github.com/JacobNatural/Algorithms/blob/master/src/main/java/com/app/cipher/caesar_cipher/CaesarCipher.java)
