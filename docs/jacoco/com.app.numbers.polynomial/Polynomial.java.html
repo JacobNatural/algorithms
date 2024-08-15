@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Polynomial.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.polynomial</a> &gt; <span class="el_source">Polynomial.java</span></div><h1>Polynomial.java</h1><pre class="source lang-java linenums">package com.app.numbers.polynomial;
+
+import lombok.*;
+
+/**
+ * Represents a polynomial equation and provides a method to evaluate it for a given value of x.
+ * The polynomial is expressed as an array of coefficients, where each index corresponds to the coefficient
+ * for a term of the polynomial.
+ * &lt;p&gt;
+ * For example, the polynomial 3x^2 + 2x + 1 would have coefficients [3, 2, 1].
+ */
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode
+@ToString
+public class Polynomial {
+
+    /**
+     * An array of coefficients representing the polynomial.
+     * The coefficient at index 0 corresponds to the highest degree term, and the last index corresponds to the constant term.
+     */
+    private final double[] coefficients;
+
+    /**
+     * Factory method to create a Polynomial object.
+     *
+     * @param coefficients An array of coefficients, where each index corresponds to the coefficient of the respective term.
+     *                     The highest degree term is the coefficient at index 0, and the constant term is the last element.
+     * @return A {@code Polynomial} object.
+     * @throws IllegalArgumentException if the coefficients array is null or empty.
+     */
+    public static Polynomial of(double[] coefficients) {
+
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (coefficients == null) {</span>
+<span class="fc" id="L34">            throw new IllegalArgumentException(&quot;Coefficients are null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (coefficients.length == 0) {</span>
+<span class="fc" id="L38">            throw new IllegalArgumentException(&quot;Coefficients are empty&quot;);</span>
+        }
+
+<span class="fc" id="L41">        return new Polynomial(coefficients);</span>
+    }
+
+    /**
+     * Evaluates the polynomial for a given value of x using Horner's method.
+     * &lt;p&gt;
+     * Horner's method is an efficient way of evaluating polynomials that minimizes the number of multiplications.
+     * &lt;p&gt;
+     * For example, if the polynomial is 3x^2 + 2x + 1 and x = 2, the method would compute:
+     * result = ((3 * 2) + 2) * 2 + 1.
+     *
+     * @param x The value at which to evaluate the polynomial.
+     * @return The result of evaluating the polynomial at the given x.
+     */
+    public double calculate(double x) {
+
+        // Initialize the result with the leading coefficient
+<span class="fc" id="L58">        var result = coefficients[0];</span>
+
+        // Use Horner's method to evaluate the polynomial
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        for (int i = 1; i &lt; coefficients.length; i++) {</span>
+<span class="fc" id="L62">            result = result * x + coefficients[i];</span>
+        }
+
+<span class="fc" id="L65">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GreedyChangeMaker.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.greedy_algorithm_gives_leftovers</a> &gt; <span class="el_source">GreedyChangeMaker.java</span></div><h1>GreedyChangeMaker.java</h1><pre class="source lang-java linenums">package com.app.numbers.greedy_algorithm_gives_leftovers;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * Represents a set of denominations (e.g., coins, bills) that can be used to calculate change.
+ * The class uses a greedy algorithm to find the minimal number of denominations that can make up the difference between a payment and a price.
+ */
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
+public class GreedyChangeMaker {
+    /**
+     * A set of available denominations. This set is immutable and sorted in descending order.
+     */
+    private final Set&lt;Integer&gt; availableDenominations;
+
+    /**
+     * Creates a Denominations object with a set of available denominations sorted in descending order.
+     *
+     * @param availableDenominations The set of denominations that are available for calculating the change.
+     * @return A {@code Denominations} object containing the sorted set of available denominations.
+     * @throws IllegalArgumentException if the provided set is {@code null} or empty.
+     */
+    public static GreedyChangeMaker of(Set&lt;Integer&gt; availableDenominations) {
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (availableDenominations == null) {</span>
+<span class="fc" id="L32">            throw new IllegalArgumentException(&quot;Available denominations is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (availableDenominations.isEmpty()) {</span>
+<span class="fc" id="L36">            throw new IllegalArgumentException(&quot;Available denominations is empty&quot;);</span>
+        }
+
+<span class="fc" id="L39">        return new GreedyChangeMaker(</span>
+                availableDenominations
+<span class="fc" id="L41">                        .stream()</span>
+<span class="fc" id="L42">                        .sorted(Comparator.reverseOrder())</span>
+<span class="fc" id="L43">                        .collect(Collectors.toCollection(LinkedHashSet::new)));</span>
+    }
+
+    /**
+     * Calculates the list of denominations that represent the change when the payment is greater than the price.
+     * The method uses a greedy algorithm to subtract the largest possible denomination from the remaining change
+     * until the change has been fully represented.
+     *
+     * @param payment The amount of money given by the customer.
+     * @param price   The cost of the product or service.
+     * @return A list of denominations that make up the change, in descending order.
+     * @throws IllegalArgumentException if the payment or price are non-positive,
+     *                                  or if the payment is less than the price,
+     *                                  or if it is not possible to represent the change using the available denominations.
+     */
+    public List&lt;Integer&gt; calculateNominals(int payment, int price) {
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (payment &lt;= 0) {</span>
+<span class="fc" id="L61">            throw new IllegalArgumentException(&quot;Payment is negative or null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (price &lt;= 0) {</span>
+<span class="fc" id="L65">            throw new IllegalArgumentException(&quot;Price is negative or null&quot;);</span>
+        }
+
+<span class="fc" id="L68">        var rest = payment - price;</span>
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (rest &lt; 0) {</span>
+<span class="fc" id="L71">            throw new IllegalArgumentException(&quot;Payment is less than price&quot;);</span>
+        }
+
+<span class="fc" id="L74">        var nominals = new ArrayList&lt;Integer&gt;();</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        for (var nominal : availableDenominations) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            while (rest &gt;= nominal) {</span>
+<span class="fc" id="L78">                nominals.add(nominal);</span>
+<span class="fc" id="L79">                rest -= nominal;</span>
+            }
+<span class="fc" id="L81">        }</span>
+
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (rest &gt; 0) {</span>
+<span class="fc" id="L84">            throw new IllegalArgumentException(&quot;Not possible to calculate nominals&quot;);</span>
+        }
+
+<span class="fc" id="L87">        return nominals;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

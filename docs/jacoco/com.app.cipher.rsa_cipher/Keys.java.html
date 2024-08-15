@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Keys.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.cipher.rsa_cipher</a> &gt; <span class="el_source">Keys.java</span></div><h1>Keys.java</h1><pre class="source lang-java linenums">package com.app.cipher.rsa_cipher;
+
+import lombok.AllArgsConstructor;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * The {@code Keys} class represents the RSA encryption keys, including the public, private, and the product of two prime numbers (key2).
+ * It provides methods to generate these keys and create an instance of the class using those keys.
+ */
+@AllArgsConstructor
+public class Keys {
+
+    /**
+     * The public key used for encryption.
+     */
+    final BigInteger publicKey;
+
+    /**
+     * The private key used for decryption.
+     */
+    final BigInteger privateKey;
+
+    /**
+     * The product of two prime numbers used as the modulus (key2) in the RSA algorithm.
+     */
+    final BigInteger key2;
+
+    /**
+     * Creates a new {@code Keys} instance with randomly generated public, private, and modulus keys.
+     *
+     * @return A new {@code Keys} object containing the generated RSA keys.
+     */
+    public static Keys of() {
+<span class="fc" id="L38">        var keys = generateKeys();</span>
+<span class="fc" id="L39">        return new Keys(keys.get(0), keys.get(1), keys.get(2));</span>
+    }
+
+    /**
+     * Generates RSA encryption keys by selecting two random prime numbers from a predefined list and calculating the
+     * public key, private key, and modulus.
+     *
+     * @return A list containing the public key, private key, and modulus as {@code BigInteger} values.
+     * @throws IllegalArgumentException If a relatively prime number cannot be found.
+     */
+    static List&lt;BigInteger&gt; generateKeys() {
+<span class="fc" id="L50">        var primeNumbers = GeneratePrimeNumbers.generate(500);</span>
+<span class="fc" id="L51">        var p = primeNumbers.get(new Random().nextInt(0, primeNumbers.size()));</span>
+<span class="fc" id="L52">        var q = primeNumbers.get(new Random().nextInt(0, primeNumbers.size()));</span>
+<span class="fc" id="L53">        var key2 = BigInteger.valueOf(p).multiply(BigInteger.valueOf(q));</span>
+<span class="fc" id="L54">        var funEuler = BigInteger.valueOf(p - 1).multiply(BigInteger.valueOf(q - 1));</span>
+<span class="fc" id="L55">        var publicKey = findRelativelyPrimeNumber(funEuler, primeNumbers);</span>
+<span class="fc" id="L56">        var privateKey = publicKey.modInverse(funEuler);</span>
+<span class="fc" id="L57">        return new ArrayList&lt;&gt;(List.of(publicKey, privateKey, key2));</span>
+    }
+
+    /**
+     * Finds a number from the list of prime numbers that is relatively prime to Euler's Totient function (funEuler).
+     *
+     * @param funEuler     Euler's Totient function value derived from two prime numbers.
+     * @param primeNumbers The list of prime numbers used to find the relatively prime number.
+     * @return A relatively prime number to {@code funEuler} as a {@code BigInteger}.
+     * @throws IllegalArgumentException If a relatively prime number cannot be found.
+     */
+    private static BigInteger findRelativelyPrimeNumber(BigInteger funEuler, List&lt;Integer&gt; primeNumbers) {
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        for (var x : primeNumbers) {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (funEuler.remainder(BigInteger.valueOf(x)).compareTo(BigInteger.ZERO) &gt; 0) {</span>
+<span class="fc" id="L71">                return BigInteger.valueOf(x);</span>
+            }
+<span class="fc" id="L73">        }</span>
+<span class="nc" id="L74">        throw new IllegalArgumentException(&quot;Could not find a relatively prime number!&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

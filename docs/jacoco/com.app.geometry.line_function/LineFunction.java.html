@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LineFunction.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.geometry.line_function</a> &gt; <span class="el_source">LineFunction.java</span></div><h1>LineFunction.java</h1><pre class="source lang-java linenums">package com.app.geometry.line_function;
+
+import com.app.geometry.point.Point;
+import lombok.AllArgsConstructor;
+
+/**
+ * The LineFunction class represents a linear function of the form ax + by + c = 0.
+ * It provides functionality to check whether a given point lies on the line defined by the function.
+ */
+@AllArgsConstructor
+public class LineFunction {
+
+    private final double a;  // Coefficient for x
+    private final double b;  // Coefficient for y
+    private final double c;  // Constant term
+
+    /**
+     * Checks if a given point lies on the line represented by the linear function ax + by + c = 0.
+     *
+     * @param point The point to be checked.
+     * @return true if the point lies on the line, false otherwise.
+     * @throws IllegalArgumentException if the point is null.
+     */
+    public boolean isPointOnLineFunction(Point point) {
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (point == null) {</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Point is null&quot;);</span>
+        }
+
+        // Check if the point satisfies the equation ax + by + c = 0
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        return point.productVariableX(a) + point.productVariableY(b) + c == 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

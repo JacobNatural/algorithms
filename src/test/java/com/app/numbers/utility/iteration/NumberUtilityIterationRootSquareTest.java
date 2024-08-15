@@ -14,7 +14,7 @@ public class NumberUtilityIterationRootSquareTest {
     public void test1(double number){
         Assertions
                 .assertThatThrownBy(
-                        () -> NumberUtilityIteration.rootSquare(number, 0.1))
+                        () -> NumberUtilityIteration.squareRoot(number, 0.1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Number is invalid");
     }
@@ -25,7 +25,7 @@ public class NumberUtilityIterationRootSquareTest {
     public void test2(double epsilon){
         Assertions
                 .assertThatThrownBy(
-                        () -> NumberUtilityIteration.rootSquare(3,epsilon)
+                        () -> NumberUtilityIteration.squareRoot(3,epsilon)
                 )
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Epsilon is invalid");
@@ -35,7 +35,7 @@ public class NumberUtilityIterationRootSquareTest {
     @DisplayName("When the calculate correctly with the same epsilon")
     @CsvFileSource(resources = "/numbers/utility/root_square_numbers.csv")
     public void test3(int number, double expected){
-        Assertions.assertThat(NumberUtilityIteration.rootSquare(number,0.00001))
+        Assertions.assertThat(NumberUtilityIteration.squareRoot(number,0.00001))
                 .isEqualTo(expected);
     }
 
@@ -43,7 +43,7 @@ public class NumberUtilityIterationRootSquareTest {
     @DisplayName("When the calculate correctly with different epsilon")
     @CsvFileSource(resources = "/numbers/utility/root_square_epsilon.csv")
     public void test4(double epsilon, double expected){
-        Assertions.assertThat(NumberUtilityIteration.rootSquare(300,epsilon))
+        Assertions.assertThat(NumberUtilityIteration.squareRoot(300,epsilon))
                 .isEqualTo(expected);
     }
 }

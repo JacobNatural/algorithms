@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FibonacciIterative.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.fibo</a> &gt; <span class="el_source">FibonacciIterative.java</span></div><h1>FibonacciIterative.java</h1><pre class="source lang-java linenums">package com.app.numbers.fibo;
+
+import lombok.NoArgsConstructor;
+
+/**
+ * The {@code FibonacciIterative} class provides an implementation of the Fibonacci sequence
+ * using an iterative approach. This method computes Fibonacci numbers with a time complexity
+ * of O(n) and a space complexity of O(1), making it both efficient in terms of execution time
+ * and memory usage.
+ *
+ * &lt;p&gt;This iterative approach is more space-efficient compared to dynamic programming as it
+ * only uses a fixed amount of additional space, regardless of the value of {@code n}.&lt;/p&gt;
+ */
+@NoArgsConstructor
+public class FibonacciIterative implements Fibonacci {
+
+    /**
+     * Computes the Fibonacci number at the specified position using an iterative approach.
+     *
+     * @param n The position in the Fibonacci sequence (0-based index).
+     *          Must be a non-negative integer.
+     * @return The Fibonacci number at the specified position.
+     */
+    @Override
+    public int value(int n) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (n &lt;= 1) {</span>
+<span class="fc" id="L27">            return n;</span>
+        }
+
+<span class="fc" id="L30">        var a = 0;</span>
+<span class="fc" id="L31">        var b = 1;</span>
+<span class="fc" id="L32">        var result = 0;</span>
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        for (int i = 2; i &lt;= n; i++) {</span>
+<span class="fc" id="L35">            result = a + b;</span>
+<span class="fc" id="L36">            a = b;</span>
+<span class="fc" id="L37">            b = result;</span>
+        }
+
+<span class="fc" id="L40">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

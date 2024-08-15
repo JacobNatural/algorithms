@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumberUtilityIteration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.utility.iteration</a> &gt; <span class="el_source">NumberUtilityIteration.java</span></div><h1>NumberUtilityIteration.java</h1><pre class="source lang-java linenums">package com.app.numbers.utility.iteration;
+
+/**
+ * A utility interface providing various mathematical and array manipulation methods.
+ * All methods use iterative techniques for computation.
+ */
+public interface NumberUtilityIteration {
+
+    /**
+     * Calculates the result of raising a base number to a given exponent using exponentiation by squaring.
+     *
+     * @param x        The base number.
+     * @param exponent The exponent to which the base number is raised. Must be non-negative.
+     * @return The result of {@code x} raised to the power of {@code exponent}.
+     * @throws IllegalArgumentException If the exponent is negative.
+     */
+    static long exponentiation(long x, int exponent) {
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (exponent &lt; 0) {</span>
+<span class="fc" id="L20">            throw new IllegalArgumentException(&quot;Exponent is negative&quot;);</span>
+        }
+
+<span class="fc" id="L23">        long result = 1L;</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        while (exponent &gt; 0) {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (exponent % 2 == 1) {</span>
+<span class="fc" id="L27">                result *= x;</span>
+            }
+
+<span class="fc" id="L30">            exponent /= 2;</span>
+<span class="fc" id="L31">            x = x * x;</span>
+        }
+<span class="fc" id="L33">        return result;</span>
+    }
+
+    /**
+     * Checks if a number is a perfect number.
+     * A perfect number is a positive integer that is equal to the sum of its proper divisors.
+     *
+     * @param number The number to be checked. Must be greater than or equal to 6.
+     * @return {@code true} if {@code number} is a perfect number, otherwise {@code false}.
+     * @throws IllegalArgumentException If the number is less than 6.
+     */
+    static boolean isPerfect(long number) {
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (number &lt; 6) {</span>
+<span class="fc" id="L47">            return false;</span>
+        }
+
+<span class="fc" id="L50">        long sum = 1L;</span>
+
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        for (long i = 2; i * i &lt;= number; i++) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            if (number % i == 0) {</span>
+<span class="fc" id="L54">                sum += i + number / i;</span>
+            }
+        }
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        return sum == number;</span>
+    }
+
+    /**
+     * Checks if a number is a prime number.
+     * A prime number is a positive integer greater than 1 that has no positive integer divisors other than 1 and itself.
+     *
+     * @param number The number to be checked. Must be a non-negative integer.
+     * @return {@code true} if {@code number} is a prime number, otherwise {@code false}.
+     */
+    static boolean isPrime(int number) {
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (number &lt; 2) {</span>
+<span class="fc" id="L71">            return false;</span>
+        }
+
+<span class="fc bfc" id="L74" title="All 4 branches covered.">        if (number == 2 || number == 3) {</span>
+<span class="fc" id="L75">            return true;</span>
+        }
+
+<span class="fc bfc" id="L78" title="All 4 branches covered.">        if (number % 2 == 0 || number % 3 == 0) {</span>
+<span class="fc" id="L79">            return false;</span>
+        }
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (int i = 5; i * i &lt;= number; i += 6) {</span>
+<span class="fc bfc" id="L83" title="All 4 branches covered.">            if (number % i == 0 || number % (i + 2) == 0) {</span>
+<span class="fc" id="L84">                return false;</span>
+            }
+        }
+
+<span class="fc" id="L88">        return true;</span>
+    }
+
+    /**
+     * Calculates the square root of a number using the iterative method of averaging.
+     *
+     * @param number  The number to find the square root of. Must be positive.
+     * @param epsilon The acceptable error margin for the result. Must be between 0 and 1 (exclusive).
+     * @return The approximate square root of {@code number}.
+     * @throws IllegalArgumentException If {@code number} is less than or equal to 0, or {@code epsilon} is not in the range (0, 1).
+     */
+    static double squareRoot(double number, double epsilon) {
+
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (number &lt;= 0) {</span>
+<span class="fc" id="L102">            throw new IllegalArgumentException(&quot;Number is invalid&quot;);</span>
+        }
+<span class="fc bfc" id="L104" title="All 4 branches covered.">        if (epsilon &lt;= 0 || epsilon &gt;= 1) {</span>
+<span class="fc" id="L105">            throw new IllegalArgumentException(&quot;Epsilon is invalid&quot;);</span>
+        }
+
+<span class="fc" id="L108">        double a = number / 2.0;</span>
+<span class="fc" id="L109">        double b = number / a;</span>
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        while (Math.abs(number - (a * a)) &gt;= epsilon) {</span>
+<span class="fc" id="L112">            a = (a + b) / 2;</span>
+<span class="fc" id="L113">            b = number / a;</span>
+        }
+
+<span class="fc" id="L116">        return a;</span>
+    }
+
+    /**
+     * Finds the maximum value in an array of integers.
+     *
+     * @param numbers The array of integers. Must not be null or empty.
+     * @return The maximum value found in the array.
+     * @throws IllegalArgumentException If the array is null or empty.
+     */
+    static int getMax(int[] numbers) {
+
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        if (numbers == null) {</span>
+<span class="fc" id="L129">            throw new IllegalArgumentException(&quot;Array is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (numbers.length == 0) {</span>
+<span class="fc" id="L133">            throw new IllegalArgumentException(&quot;Array is empty&quot;);</span>
+        }
+
+<span class="fc" id="L136">        int index = 0;</span>
+
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        for (int i = 1; i &lt; numbers.length; i++) {</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">            if (numbers[i] &gt; numbers[index]) {</span>
+<span class="fc" id="L140">                index = i;</span>
+            }
+        }
+
+<span class="fc" id="L144">        return numbers[index];</span>
+    }
+
+    /**
+     * Finds the minimum value in an array of integers.
+     *
+     * @param numbers The array of integers. Must not be null or empty.
+     * @return The minimum value found in the array.
+     * @throws IllegalArgumentException If the array is null or empty.
+     */
+    static int getMin(int[] numbers) {
+
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (numbers == null) {</span>
+<span class="fc" id="L157">            throw new IllegalArgumentException(&quot;Array is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (numbers.length == 0) {</span>
+<span class="fc" id="L161">            throw new IllegalArgumentException(&quot;Array is empty&quot;);</span>
+        }
+
+<span class="fc" id="L164">        int index = 0;</span>
+
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        for (int i = 1; i &lt; numbers.length; i++) {</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            if (numbers[i] &lt; numbers[index]) {</span>
+<span class="fc" id="L168">                index = i;</span>
+            }
+        }
+
+<span class="fc" id="L172">        return numbers[index];</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

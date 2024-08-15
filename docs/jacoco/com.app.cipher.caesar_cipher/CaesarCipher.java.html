@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CaesarCipher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.cipher.caesar_cipher</a> &gt; <span class="el_source">CaesarCipher.java</span></div><h1>CaesarCipher.java</h1><pre class="source lang-java linenums">package com.app.cipher.caesar_cipher;
+
+import com.app.cipher.EncryptionService;
+import lombok.AllArgsConstructor;
+
+/**
+ * Implementation of the Caesar Cipher encryption and decryption.
+ * The Caesar Cipher is a substitution cipher where each character in the plaintext is shifted
+ * a certain number of places down or up the alphabet.
+ *
+ * &lt;p&gt;It supports characters from the ASCII printable range, from '!' (33) to '~' (127).
+ * Characters outside this range are not encrypted or decrypted and are kept as is.&lt;/p&gt;
+ *
+ * This class uses a fixed range of printable ASCII characters and a key to perform the shift.
+ */
+@AllArgsConstructor
+public class CaesarCipher implements EncryptionService {
+
+    private final int key;
+    private static final int MIN_COD = 33; // ASCII value of '!'
+    private static final int MAX_COD = 127; // ASCII value of '~'
+
+    /**
+     * Encrypts the given text using the Caesar Cipher technique.
+     *
+     * @param txt the text to be encrypted
+     * @return the encrypted text
+     * @throws IllegalArgumentException if the input text is null or empty
+     */
+    public String encrypt(String txt) {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (txt == null) {</span>
+<span class="fc" id="L32">            throw new IllegalArgumentException(&quot;Text is null&quot;);</span>
+        }
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (txt.isEmpty()) {</span>
+<span class="fc" id="L35">            throw new IllegalArgumentException(&quot;Text is empty&quot;);</span>
+        }
+
+<span class="fc" id="L38">        var encrypted = new StringBuilder();</span>
+<span class="fc" id="L39">        var amount = MAX_COD - MIN_COD;</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (var sign : txt.toCharArray()) {</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">            if (sign &lt; '!' || sign &gt; '~') {</span>
+<span class="fc" id="L43">                encrypted.append(sign);</span>
+            } else {
+<span class="fc" id="L45">                var signtmp = (sign + (key % amount));</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                if (signtmp &gt;= MAX_COD) {</span>
+<span class="fc" id="L47">                    signtmp = signtmp - amount;</span>
+                }
+<span class="fc" id="L49">                encrypted.append((char) signtmp);</span>
+            }
+        }
+<span class="fc" id="L52">        return encrypted.toString();</span>
+    }
+
+    /**
+     * Decrypts the given text that was encrypted using the Caesar Cipher technique.
+     *
+     * @param txt the text to be decrypted
+     * @return the decrypted text
+     * @throws IllegalArgumentException if the input text is null or empty
+     */
+    public String decrypt(String txt) {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (txt == null) {</span>
+<span class="fc" id="L64">            throw new IllegalArgumentException(&quot;Text is null&quot;);</span>
+        }
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (txt.isEmpty()) {</span>
+<span class="fc" id="L67">            throw new IllegalArgumentException(&quot;Text is empty&quot;);</span>
+        }
+
+<span class="fc" id="L70">        var decrypted = new StringBuilder();</span>
+<span class="fc" id="L71">        var amount = MAX_COD - MIN_COD;</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        for (var sign : txt.toCharArray()) {</span>
+<span class="fc bfc" id="L74" title="All 4 branches covered.">            if (sign &lt; '!' || sign &gt; '~') {</span>
+<span class="fc" id="L75">                decrypted.append(sign);</span>
+            } else {
+<span class="fc" id="L77">                var signtmp = sign - (key % amount);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                if (signtmp &lt; MIN_COD) {</span>
+<span class="fc" id="L79">                    signtmp = signtmp + amount;</span>
+                }
+<span class="fc" id="L81">                decrypted.append((char) signtmp);</span>
+            }
+        }
+<span class="fc" id="L84">        return decrypted.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

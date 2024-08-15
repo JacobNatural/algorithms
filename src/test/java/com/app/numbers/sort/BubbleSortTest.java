@@ -14,14 +14,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BubbleSortTest {
 
-    private final BubbelSort<Integer> bubbelSort;
+    private final BubbleSort<Integer> bubbleSort;
 
     @Test
     @DisplayName("When the list is null")
     public void test1(){
         Assertions
                 .assertThatThrownBy(
-                        () -> bubbelSort.sort(null, Comparator.naturalOrder()))
+                        () -> bubbleSort.sort(null, Comparator.naturalOrder()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("List is null");
     }
@@ -31,7 +31,7 @@ public class BubbleSortTest {
     public void test2(){
         Assertions
                 .assertThatThrownBy(
-                        () -> bubbelSort.sort(List.of(), Comparator.naturalOrder()))
+                        () -> bubbleSort.sort(List.of(), Comparator.naturalOrder()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("List is empty");
     }
@@ -41,7 +41,7 @@ public class BubbleSortTest {
     public void test3(){
         Assertions
                 .assertThatThrownBy(
-                        () -> bubbelSort.sort(numbers, null))
+                        () -> bubbleSort.sort(numbers, null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Comparator is null");
     }
@@ -51,7 +51,7 @@ public class BubbleSortTest {
     public void test4(){
         Assertions
                 .assertThat(
-                        bubbelSort.sortNaturalOrder(numbers))
+                        bubbleSort.sortNaturalOrder(numbers))
                 .isEqualTo(numberAscending);
     }
 
@@ -60,7 +60,7 @@ public class BubbleSortTest {
     public void test5(){
         Assertions
                 .assertThat(
-                        bubbelSort.sortReversOrder(numbers))
+                        bubbleSort.sortReversOrder(numbers))
                 .isEqualTo(numberDescending);
     }
 }

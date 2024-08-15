@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GcdEuclidRecursion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.gcd</a> &gt; <span class="el_source">GcdEuclidRecursion.java</span></div><h1>GcdEuclidRecursion.java</h1><pre class="source lang-java linenums">package com.app.numbers.gcd;
+
+import lombok.NoArgsConstructor;
+
+/**
+ * The {@code GcdEuclidRecursion} class provides an implementation of the {@code Gcd} interface
+ * using the recursive Euclidean algorithm to compute the Greatest Common Divisor (GCD) of two integers.
+ *
+ * &lt;p&gt;The Euclidean algorithm for computing the GCD is based on the principle that the GCD of two numbers also divides their difference.
+ * The recursive version of this algorithm repeatedly applies this principle until one of the numbers becomes zero.&lt;/p&gt;
+ */
+@NoArgsConstructor
+public class GcdEuclidRecursion implements Gcd {
+
+    /**
+     * Computes the Greatest Common Divisor (GCD) of two integers using the recursive Euclidean algorithm.
+     *
+     * &lt;p&gt;This method computes the GCD of two integers {@code a} and {@code b} by recursively applying the Euclidean algorithm.
+     * The base case for the recursion is when {@code b} becomes zero, in which case {@code a} is the GCD. Otherwise, the method
+     * is called recursively with {@code b} and {@code a % b}.&lt;/p&gt;
+     *
+     * @param a The first integer.
+     * @param b The second integer.
+     * @return The GCD of the two integers.
+     * @throws IllegalArgumentException if either {@code a} or {@code b} is negative.
+     */
+    @Override
+    public int value(int a, int b) {
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (a &lt; 0) {</span>
+<span class="fc" id="L31">            throw new IllegalArgumentException(&quot;Argument a is negative&quot;);</span>
+        }
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (b &lt; 0) {</span>
+<span class="fc" id="L35">            throw new IllegalArgumentException(&quot;Argument b is negative&quot;);</span>
+        }
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (b == 0) {</span>
+<span class="fc" id="L39">            return a;</span>
+        } else {
+<span class="fc" id="L41">            return value(b, a % b);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

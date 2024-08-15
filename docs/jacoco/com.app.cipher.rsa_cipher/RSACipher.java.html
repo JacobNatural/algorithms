@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RSACipher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.cipher.rsa_cipher</a> &gt; <span class="el_source">RSACipher.java</span></div><h1>RSACipher.java</h1><pre class="source lang-java linenums">package com.app.cipher.rsa_cipher;
+
+import com.app.cipher.EncryptionService;
+import lombok.AllArgsConstructor;
+
+import java.math.BigInteger;
+import java.util.*;
+
+/**
+ * The {@code RSACipher} class implements the RSA encryption and decryption algorithm.
+ * It uses {@code Keys} to handle the public, private, and modulus values necessary for the RSA operations.
+ */
+@AllArgsConstructor
+public class RSACipher implements EncryptionService {
+
+    /**
+     * The RSA keys used for encryption and decryption.
+     */
+    private final Keys keys;
+
+    /**
+     * Creates a new {@code RSACipher} instance with freshly generated RSA keys.
+     *
+     * @return A new {@code RSACipher} object.
+     */
+    public static RSACipher of() {
+<span class="fc" id="L27">        return new RSACipher(Keys.of());</span>
+    }
+
+    /**
+     * Encrypts the given plain text using the RSA encryption algorithm.
+     * The plain text is converted to its ASCII values, then encrypted using the public key and modulus.
+     * Each encrypted value is stored as a string, separated by newline characters.
+     *
+     * @param text The plain text to be encrypted.
+     * @return The encrypted text, with each encrypted character represented by a number and separated by newlines.
+     * @throws IllegalArgumentException If the input text is null or empty.
+     */
+    @Override
+    public String encrypt(String text) {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (text == null) {</span>
+<span class="fc" id="L42">            throw new IllegalArgumentException(&quot;Text is null&quot;);</span>
+        }
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (text.isEmpty()) {</span>
+<span class="fc" id="L45">            throw new IllegalArgumentException(&quot;Text is empty&quot;);</span>
+        }
+
+<span class="fc" id="L48">        var crypted = new StringJoiner(&quot;\n&quot;);</span>
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (var sign : text.toCharArray()) {</span>
+<span class="fc" id="L51">            var bigInteger = new BigInteger(String.valueOf((int) sign));</span>
+<span class="fc" id="L52">            bigInteger = bigInteger.pow(keys.publicKey.intValue()).remainder(keys.key2);</span>
+<span class="fc" id="L53">            crypted.add(bigInteger.toString());</span>
+        }
+<span class="fc" id="L55">        return crypted.toString();</span>
+    }
+
+    /**
+     * Decrypts the given encrypted text using the RSA decryption algorithm.
+     * The encrypted text should be formatted as numbers separated by newlines, corresponding to the encrypted ASCII values.
+     *
+     * @param text The encrypted text to be decrypted.
+     * @return The decrypted plain text.
+     * @throws IllegalArgumentException If the input text is null, empty, or not in the expected format.
+     */
+    @Override
+    public String decrypt(String text) {
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (text == null) {</span>
+<span class="fc" id="L69">            throw new IllegalArgumentException(&quot;Text is null&quot;);</span>
+        }
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (text.isEmpty()) {</span>
+<span class="fc" id="L72">            throw new IllegalArgumentException(&quot;Text is empty&quot;);</span>
+        }
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (!text.matches(&quot;([0-9]+\n)+([0-9]+)&quot;)) {</span>
+<span class="fc" id="L75">            throw new IllegalArgumentException(&quot;Format of encrypted text is not valid!&quot;);</span>
+        }
+
+<span class="fc" id="L78">        var decrypted = new StringBuilder();</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        for (var sign : text.split(&quot;\n&quot;)) {</span>
+<span class="fc" id="L81">            var number = new BigInteger(sign);</span>
+<span class="fc" id="L82">            var a = (char) Integer.parseInt(</span>
+<span class="fc" id="L83">                    String.valueOf(</span>
+<span class="fc" id="L84">                            number.pow(keys.privateKey.intValue()).remainder(keys.key2)</span>
+                    )
+            );
+<span class="fc" id="L87">            decrypted.append(a);</span>
+        }
+<span class="fc" id="L89">        return decrypted.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

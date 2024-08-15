@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PolynomialUtility.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.polynomial</a> &gt; <span class="el_source">PolynomialUtility.java</span></div><h1>PolynomialUtility.java</h1><pre class="source lang-java linenums">package com.app.numbers.polynomial;
+
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
+/**
+ * A utility class for performing numerical operations on polynomials.
+ * This class provides methods for numerical integration (trapezoidal and rectangle rules)
+ * as well as for finding roots (zero places) using the bisection method.
+ */
+@AllArgsConstructor
+@ToString
+public class PolynomialUtility {
+
+    /**
+     * The polynomial to be used for the numerical operations.
+     */
+    private final Polynomial polynomial;
+
+    /**
+     * Approximates the definite integral of the polynomial using the trapezoidal rule over the interval [a, b].
+     *
+     * @param a The lower limit of integration.
+     * @param b The upper limit of integration.
+     * @param n The number of subintervals.
+     * @return The approximate value of the integral.
+     * @throws IllegalArgumentException if a is greater than or equal to b, or if n is less than 1.
+     */
+    public double trapezoidal(double a, double b, int n) {
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (a &gt;= b) {</span>
+<span class="fc" id="L32">            throw new IllegalArgumentException(&quot;A is higher or equal to b&quot;);</span>
+        }
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (n &lt; 1) {</span>
+<span class="fc" id="L36">            throw new IllegalArgumentException(&quot;N is less than one&quot;);</span>
+        }
+
+<span class="fc" id="L39">        var baseA = polynomial.calculate(a);</span>
+<span class="fc" id="L40">        var baseB = 0.0;</span>
+<span class="fc" id="L41">        var sum = 0.0;</span>
+<span class="fc" id="L42">        var h = (b - a) / n;</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (int i = 1; i &lt;= n; i++) {</span>
+<span class="fc" id="L45">            baseB = polynomial.calculate(a + i * h);</span>
+<span class="fc" id="L46">            sum += baseA + baseB;</span>
+<span class="fc" id="L47">            baseA = baseB;</span>
+        }
+
+<span class="fc" id="L50">        return sum * h * 0.5;</span>
+    }
+
+    /**
+     * Approximates the definite integral of the polynomial using the rectangle rule (midpoint rule) over the interval [a, b].
+     *
+     * @param a The lower limit of integration.
+     * @param b The upper limit of integration.
+     * @param n The number of subintervals.
+     * @return The approximate value of the integral.
+     * @throws IllegalArgumentException if a is greater than or equal to b, or if n is less than 1.
+     */
+    public double rectangle(double a, double b, int n) {
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (a &gt;= b) {</span>
+<span class="fc" id="L65">            throw new IllegalArgumentException(&quot;A is higher or equal to b&quot;);</span>
+        }
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (n &lt; 1) {</span>
+<span class="fc" id="L69">            throw new IllegalArgumentException(&quot;N is less than one&quot;);</span>
+        }
+
+<span class="fc" id="L72">        var sideLength = (b - a) / n;</span>
+<span class="fc" id="L73">        var middle = a + (sideLength / 2);</span>
+<span class="fc" id="L74">        var sum = 0.0;</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        for (int i = 1; i &lt;= n; i++) {</span>
+<span class="fc" id="L77">            sum += polynomial.calculate(middle);</span>
+<span class="fc" id="L78">            middle += sideLength;</span>
+        }
+
+<span class="fc" id="L81">        return sum * sideLength;</span>
+    }
+
+    /**
+     * Finds the root (zero place) of the polynomial within the interval [x1, x2] using the bisection method.
+     * &lt;p&gt;
+     * This method iteratively refines the interval until it contains the root with a precision specified by epsilon.
+     *
+     * @param x1      The lower bound of the interval.
+     * @param x2      The upper bound of the interval.
+     * @param epsilon The acceptable error for the root (must be between 0 and 1).
+     * @return The approximate value of the root.
+     * @throws IllegalArgumentException if epsilon is out of the range (0, 1), or if the polynomial does not have opposite signs at x1 and x2.
+     */
+    public double calculateZeroPlaces(double x1, double x2, double epsilon) {
+
+<span class="fc bfc" id="L97" title="All 4 branches covered.">        if (epsilon &lt;= 0 || epsilon &gt;= 1) {</span>
+<span class="fc" id="L98">            throw new IllegalArgumentException(&quot;Epsilon is incorrect&quot;);</span>
+        }
+
+<span class="fc" id="L101">        var funA = polynomial.calculate(x1);</span>
+<span class="fc" id="L102">        var funB = polynomial.calculate(x2);</span>
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (funA * funB &gt; 0) {</span>
+<span class="fc" id="L105">            throw new IllegalArgumentException(&quot;The function does not meet the assumptions&quot;);</span>
+        }
+
+<span class="fc" id="L108">        var c = 0.0;</span>
+
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        while ((x2 - x1) &gt;= epsilon) {</span>
+
+<span class="fc" id="L112">            c = (x1 + x2) / 2;</span>
+<span class="fc" id="L113">            var fun0 = polynomial.calculate(c);</span>
+
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">            if (Math.abs(fun0) &lt; epsilon) {</span>
+<span class="nc" id="L116">                return c;</span>
+            }
+
+<span class="fc bfc" id="L119" title="All 2 branches covered.">            if (funA * fun0 &lt; 0) {</span>
+<span class="fc" id="L120">                x2 = c;</span>
+            } else {
+<span class="fc" id="L122">                x1 = c;</span>
+            }
+<span class="fc" id="L124">        }</span>
+
+<span class="fc" id="L126">        return c;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

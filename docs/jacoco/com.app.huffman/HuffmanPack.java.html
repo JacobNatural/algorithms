@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HuffmanPack.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.huffman</a> &gt; <span class="el_source">HuffmanPack.java</span></div><h1>HuffmanPack.java</h1><pre class="source lang-java linenums">package com.app.huffman;
+
+import java.util.*;
+
+/**
+ * The {@code HuffmanPack} class implements Huffman encoding for text compression.
+ * It encodes the given text using Huffman coding, creating a binary tree and generating a binary code table.
+ */
+public class HuffmanPack {
+
+    /**
+     * The text to be encoded using Huffman encoding.
+     */
+    private final String text;
+
+    /**
+     * The Huffman code mapping for each character in the text.
+     */
+    private final Map&lt;Character, String&gt; code;
+
+    /**
+     * Private constructor to initialize the HuffmanPack with the given text and code map.
+     * The Huffman binary tree is created during initialization.
+     *
+     * @param text The text to be encoded.
+     * @param map  The map to store the Huffman codes for each character.
+     */
+<span class="fc" id="L28">    private HuffmanPack(String text, Map&lt;Character, String&gt; map) {</span>
+<span class="fc" id="L29">        this.text = text;</span>
+<span class="fc" id="L30">        this.code = map;</span>
+<span class="fc" id="L31">        createHuffmanBinaryTree();</span>
+<span class="fc" id="L32">    }</span>
+
+    /**
+     * Static factory method to create a new HuffmanPack instance.
+     *
+     * @param text The text to be encoded using Huffman coding.
+     * @return A new HuffmanPack instance with the provided text.
+     * @throws IllegalArgumentException If the text is null or empty.
+     */
+    public static HuffmanPack of(String text) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (text == null) {</span>
+<span class="fc" id="L43">            throw new IllegalArgumentException(&quot;Text is null&quot;);</span>
+        }
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (text.isEmpty()) {</span>
+<span class="fc" id="L46">            throw new IllegalArgumentException(&quot;Text is empty&quot;);</span>
+        }
+
+<span class="fc" id="L49">        return new HuffmanPack(text, new HashMap&lt;&gt;());</span>
+    }
+
+    /**
+     * Calculates the frequency of each character in the input text.
+     *
+     * @return A map where the key is the character, and the value is the frequency of that character in the text.
+     */
+    private Map&lt;Character, Integer&gt; calculateLetter() {
+<span class="fc" id="L58">        Map&lt;Character, Integer&gt; lettersAndAmount = new HashMap&lt;&gt;();</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (Character c : text.toCharArray()) {</span>
+<span class="fc" id="L61">            lettersAndAmount.merge(c, 1, Integer::sum);</span>
+        }
+
+<span class="fc" id="L64">        return lettersAndAmount;</span>
+    }
+
+    /**
+     * Creates the Huffman binary tree based on character frequencies in the text.
+     * The tree is built by merging nodes with the lowest frequencies, and a Huffman code table is generated.
+     */
+    private void createHuffmanBinaryTree() {
+        Node root;
+<span class="fc" id="L73">        Map&lt;Character, Integer&gt; letterAndAmount = calculateLetter();</span>
+<span class="fc" id="L74">        List&lt;Node&gt; nodeList = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        for (Map.Entry&lt;Character, Integer&gt; entry : letterAndAmount.entrySet()) {</span>
+<span class="fc" id="L77">            nodeList.add(new Node(entry.getValue(), entry.getKey()));</span>
+<span class="fc" id="L78">        }</span>
+
+<span class="fc" id="L80">        nodeList.sort(Comparator.comparingInt(node -&gt; node.key));</span>
+
+<span class="fc" id="L82">        root = new Node(nodeList.get(0).key + nodeList.get(1).key, '-');</span>
+<span class="fc" id="L83">        root.left = nodeList.get(0);</span>
+<span class="fc" id="L84">        root.right = nodeList.get(1);</span>
+
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        for (int i = 2; i &lt; nodeList.size(); i++) {</span>
+<span class="fc" id="L87">            var newNodeTemp = new Node(root.key + nodeList.get(i).key, '-');</span>
+<span class="fc" id="L88">            newNodeTemp.left = root;</span>
+<span class="fc" id="L89">            newNodeTemp.right = nodeList.get(i);</span>
+<span class="fc" id="L90">            root = newNodeTemp;</span>
+        }
+
+<span class="fc" id="L93">        creatTableHuffman(root, &quot;&quot;);</span>
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * Recursively creates the Huffman code table by traversing the binary tree.
+     * A '0' is added for each left traversal and '1' for each right traversal.
+     *
+     * @param focusNode The current node in the Huffman binary tree.
+     * @param s         The binary string representing the path from the root to the current node.
+     */
+    private void creatTableHuffman(Node focusNode, String s) {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (focusNode != null) {</span>
+<span class="fc bfc" id="L105" title="All 4 branches covered.">            if (Character.isLetter(focusNode.sign) || focusNode.sign == ' ') {</span>
+<span class="fc" id="L106">                code.put(focusNode.sign, s);</span>
+            }
+<span class="fc" id="L108">            creatTableHuffman(focusNode.left, s + &quot;0&quot;);</span>
+<span class="fc" id="L109">            creatTableHuffman(focusNode.right, s + &quot;1&quot;);</span>
+        }
+<span class="fc" id="L111">    }</span>
+
+    /**
+     * Encodes the input text using the generated Huffman code table.
+     *
+     * @return A map where the key is the encoded text (binary string) and the value is the Huffman code table.
+     */
+    public Map&lt;String, Map&lt;Character, String&gt;&gt; pack() {
+<span class="fc" id="L119">        var result = new StringBuilder();</span>
+
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        for (var sign : text.toCharArray()) {</span>
+<span class="fc" id="L122">            result.append(code.get(sign));</span>
+        }
+
+<span class="fc" id="L125">        return new HashMap&lt;&gt;(Map.of(result.toString(), code));</span>
+    }
+
+    /**
+     * The {@code Node} class represents a node in the Huffman binary tree.
+     */
+    private static class Node {
+        int key;
+        char sign;
+        Node left;
+        Node right;
+
+<span class="fc" id="L137">        Node(int key, char sign) {</span>
+<span class="fc" id="L138">            this.key = key;</span>
+<span class="fc" id="L139">            this.sign = sign;</span>
+<span class="fc" id="L140">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

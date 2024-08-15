@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Hexadecimal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.position_systems</a> &gt; <span class="el_source">Hexadecimal.java</span></div><h1>Hexadecimal.java</h1><pre class="source lang-java linenums">package com.app.numbers.position_systems;
+
+import java.util.Locale;
+
+/**
+ * The Hexadecimal class provides methods for converting between hexadecimal and decimal number systems.
+ * It implements the {@code PositionSystems} interface and supports both conversions:
+ * hexadecimal to decimal and decimal to hexadecimal.
+ */
+<span class="fc" id="L10">public class Hexadecimal implements PositionSystems {</span>
+
+    /**
+     * Converts a hexadecimal string to its decimal integer equivalent.
+     *
+     * @param hexadecimal A string representing a hexadecimal number, consisting of '0'-'9', 'a'-'f', or 'A'-'F'.
+     * @return The decimal integer equivalent of the hexadecimal number.
+     * @throws IllegalArgumentException if the hexadecimal string is null, empty, or contains invalid characters.
+     */
+    @Override
+    public int changeToDecimal(String hexadecimal) {
+
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (hexadecimal == null) {</span>
+<span class="fc" id="L23">            throw new IllegalArgumentException(&quot;Hexadecimal is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (hexadecimal.isEmpty()) {</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Hexadecimal is empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (!hexadecimal.matches(&quot;[0-9a-fA-F]+&quot;)) {</span>
+<span class="fc" id="L31">            throw new IllegalArgumentException(&quot;Hexadecimal is invalid&quot;);</span>
+        }
+
+<span class="fc" id="L34">        var decimal = 0;</span>
+<span class="fc" id="L35">        var size = hexadecimal.length() - 1;</span>
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        for (var number : hexadecimal.toCharArray()) {</span>
+<span class="fc" id="L38">            decimal += hexToDecimalHelper(String.valueOf(number)) * (int) Math.pow(16, size);</span>
+<span class="fc" id="L39">            size--;</span>
+        }
+
+<span class="fc" id="L42">        return decimal;</span>
+    }
+
+    /**
+     * Converts a decimal integer to its hexadecimal string representation.
+     *
+     * @param numberDecimal A non-negative integer to be converted into hexadecimal.
+     * @return A string representing the hexadecimal equivalent of the decimal number.
+     * @throws IllegalArgumentException if the decimal number is negative.
+     */
+    @Override
+    public String changeToSystem(int numberDecimal) {
+
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (numberDecimal &lt; 0) {</span>
+<span class="fc" id="L56">            throw new IllegalArgumentException(&quot;Decimal number is negative&quot;);</span>
+        }
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (numberDecimal == 0) {</span>
+<span class="fc" id="L60">            return &quot;0&quot;;</span>
+        }
+
+<span class="fc" id="L63">        var hexadecimal = new StringBuilder();</span>
+
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        while (numberDecimal &gt; 0) {</span>
+<span class="fc" id="L66">            hexadecimal.append(decimalToHexHelper(numberDecimal % 16));</span>
+<span class="fc" id="L67">            numberDecimal /= 16;</span>
+        }
+
+<span class="fc" id="L70">        return hexadecimal.reverse().toString();</span>
+    }
+
+    /**
+     * Helper method to convert a single hexadecimal character to its decimal equivalent.
+     *
+     * @param number A string containing a single hexadecimal character.
+     * @return The decimal equivalent of the hexadecimal character.
+     */
+    private static int hexToDecimalHelper(String number) {
+
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (number.matches(&quot;[a-fA-F]&quot;)) {</span>
+<span class="fc" id="L82">            return HexHelper.hexToDecimal.get(number.toUpperCase(Locale.ROOT));</span>
+        }
+
+<span class="fc" id="L85">        return Integer.parseInt(number);</span>
+    }
+
+    /**
+     * Helper method to convert a decimal number (0-15) to its hexadecimal string equivalent.
+     *
+     * @param number The decimal number (0-15).
+     * @return The hexadecimal string equivalent of the decimal number.
+     */
+    private static String decimalToHexHelper(int number) {
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (number &gt; 9) {</span>
+<span class="fc" id="L96">            return HexHelper.decimalToHex.get(number);</span>
+        }
+<span class="fc" id="L98">        return String.valueOf(number);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

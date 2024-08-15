@@ -12,7 +12,7 @@ public class TextUtilityIsPatternTest {
     @DisplayName("When the test is null")
     public void test1(){
         Assertions
-                .assertThatThrownBy(() -> TextUtility.isPattern(null, "abc"))
+                .assertThatThrownBy(() -> TextUtility.hasPattern(null, "abc"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Text is null");
     }
@@ -21,7 +21,7 @@ public class TextUtilityIsPatternTest {
     @DisplayName("When the pattern is null")
     public void test2(){
         Assertions
-                .assertThatThrownBy(() -> TextUtility.isPattern("abc", null))
+                .assertThatThrownBy(() -> TextUtility.hasPattern("abc", null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Pattern is null");
     }
@@ -30,7 +30,7 @@ public class TextUtilityIsPatternTest {
     @DisplayName("When the text is empty")
     public void test3(){
         Assertions
-                .assertThatThrownBy(() -> TextUtility.isPattern("", "abc"))
+                .assertThatThrownBy(() -> TextUtility.hasPattern("", "abc"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Text is empty");
     }
@@ -39,7 +39,7 @@ public class TextUtilityIsPatternTest {
     @DisplayName("When the pattern is empty")
     public void test4(){
         Assertions
-                .assertThatThrownBy(() -> TextUtility.isPattern("abc", ""))
+                .assertThatThrownBy(() -> TextUtility.hasPattern("abc", ""))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Pattern is empty");
     }
@@ -49,7 +49,7 @@ public class TextUtilityIsPatternTest {
     @CsvFileSource(resources = "/text/text_utility/pattern_false.csv")
     public void test5(String txt, String pattern){
         Assertions
-                .assertThat(TextUtility.isPattern(txt, pattern))
+                .assertThat(TextUtility.hasPattern(txt, pattern))
                 .isFalse();
     }
 
@@ -58,7 +58,7 @@ public class TextUtilityIsPatternTest {
     @CsvFileSource(resources = "/text/text_utility/pattern_true.csv")
     public void test6(String txt, String pattern){
         Assertions
-                .assertThat(TextUtility.isPattern(txt, pattern))
+                .assertThat(TextUtility.hasPattern(txt, pattern))
                 .isTrue();
     }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReversePolishNotation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.text.reverse_polish_notation</a> &gt; <span class="el_source">ReversePolishNotation.java</span></div><h1>ReversePolishNotation.java</h1><pre class="source lang-java linenums">package com.app.text.reverse_polish_notation;
+
+import java.util.Deque;
+import java.util.LinkedList;
+
+/**
+ * This class evaluates arithmetic expressions given in Reverse Polish Notation (RPN).
+ * RPN is a mathematical notation in which every operator follows all of its operands.
+ * For example, the expression &quot;3 4 +&quot; evaluates to 7.
+ */
+<span class="fc" id="L11">public class ReversePolishNotation {</span>
+
+    /**
+     * Performs a calculation based on the provided operand and two operands.
+     *
+     * @param a       the first operand
+     * @param b       the second operand
+     * @param operand the operator to be applied
+     * @return the result of the operation
+     * @throws IllegalArgumentException if the operand is not one of &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, or &quot;/&quot;
+     */
+    private double calculate(double a, double b, String operand) {
+<span class="fc bfc" id="L23" title="All 5 branches covered.">        return switch (operand) {</span>
+<span class="fc" id="L24">            case &quot;*&quot; -&gt; a * b;</span>
+<span class="fc" id="L25">            case &quot;/&quot; -&gt; a / b;</span>
+<span class="fc" id="L26">            case &quot;+&quot; -&gt; a + b;</span>
+<span class="fc" id="L27">            case &quot;-&quot; -&gt; a - b;</span>
+<span class="fc" id="L28">            default -&gt; throw new IllegalArgumentException(&quot;Wrong operand&quot;);</span>
+        };
+    }
+
+    /**
+     * Evaluates the given expression in Reverse Polish Notation.
+     *
+     * @param notations a string representing an arithmetic expression in RPN
+     * @return the result of the evaluated expression
+     * @throws IllegalArgumentException if the input string is null, empty, contains invalid characters,
+     *                                  or if there are incorrect numbers of operands and operators
+     */
+    public double calculate(String notations) {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (notations == null) {</span>
+<span class="fc" id="L42">            throw new IllegalArgumentException(&quot;Reverse polish notation is null&quot;);</span>
+        }
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (notations.isEmpty()) {</span>
+<span class="fc" id="L45">            throw new IllegalArgumentException(&quot;Reverse polish notation is empty&quot;);</span>
+        }
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (!notations.matches(&quot;[0-9*+\\-/. ]+&quot;)) {</span>
+<span class="fc" id="L48">            throw new IllegalArgumentException(&quot;Reverse polish notation is invalid&quot;);</span>
+        }
+
+<span class="fc" id="L51">        Deque&lt;Double&gt; stack = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L52">        var split = notations.split(&quot; &quot;);</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (var notation : split) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if (notation.matches(&quot;[0-9]*\\.?[0-9]+&quot;)) {  // Adjusted regex to handle decimals more accurately</span>
+<span class="fc" id="L56">                stack.push(Double.parseDouble(notation));</span>
+            } else {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">                if (stack.size() &lt; 2) {</span>
+<span class="fc" id="L59">                    throw new IllegalArgumentException(&quot;Error between numbers and operators&quot;);</span>
+                }
+<span class="fc" id="L61">                var b = stack.pop();</span>
+<span class="fc" id="L62">                var a = stack.pop();</span>
+<span class="fc" id="L63">                stack.push(calculate(a, b, notation));</span>
+            }
+        }
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (stack.size() != 1) {</span>
+<span class="fc" id="L68">            throw new IllegalArgumentException(&quot;Numbers is too much&quot;);</span>
+        }
+
+<span class="fc" id="L71">        return stack.pop();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

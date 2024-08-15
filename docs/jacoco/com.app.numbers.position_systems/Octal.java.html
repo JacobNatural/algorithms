@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Octal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.position_systems</a> &gt; <span class="el_source">Octal.java</span></div><h1>Octal.java</h1><pre class="source lang-java linenums">package com.app.numbers.position_systems;
+
+/**
+ * The Octal class provides methods for converting between octal and decimal number systems.
+ * It implements the {@code PositionSystems} interface and supports both conversions:
+ * octal to decimal and decimal to octal.
+ */
+<span class="fc" id="L8">public class Octal implements PositionSystems {</span>
+
+    /**
+     * Converts an octal string to its decimal integer equivalent.
+     *
+     * @param octalNumber A string representing an octal number, consisting of digits '0'-'7'.
+     * @return The decimal integer equivalent of the octal number.
+     * @throws IllegalArgumentException if the octal string is null, empty, or contains invalid characters.
+     */
+    @Override
+    public int changeToDecimal(String octalNumber) {
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (octalNumber == null) {</span>
+<span class="fc" id="L21">            throw new IllegalArgumentException(&quot;Octal number is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (octalNumber.isEmpty()) {</span>
+<span class="fc" id="L25">            throw new IllegalArgumentException(&quot;Octal number is empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (!octalNumber.matches(&quot;[0-7]+&quot;)) {</span>
+<span class="fc" id="L29">            throw new IllegalArgumentException(&quot;Octal number is invalid&quot;);</span>
+        }
+
+<span class="fc" id="L32">        var decimal = 0;</span>
+<span class="fc" id="L33">        var size = octalNumber.length() - 1;</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (var number : octalNumber.toCharArray()) {</span>
+<span class="fc" id="L36">            decimal += Character.getNumericValue(number) * (int) Math.pow(8, size);</span>
+<span class="fc" id="L37">            size--;</span>
+        }
+
+<span class="fc" id="L40">        return decimal;</span>
+    }
+
+    /**
+     * Converts a decimal integer to its octal string representation.
+     *
+     * @param number A non-negative integer to be converted into octal.
+     * @return A string representing the octal equivalent of the decimal number.
+     * @throws IllegalArgumentException if the decimal number is negative.
+     */
+    @Override
+    public String changeToSystem(int number) {
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (number &lt; 0) {</span>
+<span class="fc" id="L54">            throw new IllegalArgumentException(&quot;Octal number is negative&quot;);</span>
+        }
+
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (number == 0) {</span>
+<span class="fc" id="L58">            return &quot;0&quot;;</span>
+        }
+
+<span class="fc" id="L61">        var octal = new StringBuilder();</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        while (number &gt; 0) {</span>
+<span class="fc" id="L64">            octal.append(number % 8);</span>
+<span class="fc" id="L65">            number /= 8;</span>
+        }
+
+<span class="fc" id="L68">        return octal.reverse().toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TextUtility.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.text.utility</a> &gt; <span class="el_source">TextUtility.java</span></div><h1>TextUtility.java</h1><pre class="source lang-java linenums">package com.app.text.utility;
+
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Provides utility methods for text processing, including checking for anagrams, palindromes, and pattern matching.
+ */
+public interface TextUtility {
+
+    /**
+     * Determines if two strings are anagrams of each other.
+     * Two strings are considered anagrams if they contain the same characters with the same frequencies,
+     * but the order of characters may be different.
+     *
+     * @param txt1 the first string to compare
+     * @param txt2 the second string to compare
+     * @return true if the two strings are anagrams, false otherwise
+     * @throws IllegalArgumentException if either of the strings is null or empty, or if they have different lengths
+     */
+    static boolean isAnagram(String txt1, String txt2) {
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (txt1 == null) {</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;Text 1 is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (txt2 == null) {</span>
+<span class="fc" id="L28">            throw new IllegalArgumentException(&quot;Text 2 is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (txt1.isEmpty()) {</span>
+<span class="fc" id="L32">            throw new IllegalArgumentException(&quot;Text 1 is empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (txt2.isEmpty()) {</span>
+<span class="fc" id="L36">            throw new IllegalArgumentException(&quot;Text 2 is empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (txt1.length() != txt2.length()) {</span>
+<span class="fc" id="L40">            return false;</span>
+        }
+
+<span class="fc" id="L43">        var arrChar1 = txt1.toCharArray();</span>
+<span class="fc" id="L44">        var arrChar2 = txt2.toCharArray();</span>
+
+<span class="fc" id="L46">        Arrays.sort(arrChar1);</span>
+<span class="fc" id="L47">        Arrays.sort(arrChar2);</span>
+
+<span class="fc" id="L49">        return Arrays.equals(arrChar1, arrChar2);</span>
+    }
+
+    /**
+     * Checks if a string is a palindrome. A palindrome reads the same forward and backward when non-alphanumeric
+     * characters are ignored, and case is disregarded.
+     *
+     * @param txt the string to check
+     * @return true if the string is a palindrome, false otherwise
+     * @throws IllegalArgumentException if the string is null or empty
+     */
+    static boolean isPalindrome(String txt) {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (txt == null) {</span>
+<span class="fc" id="L62">            throw new IllegalArgumentException(&quot;Text is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (txt.isEmpty()) {</span>
+<span class="fc" id="L66">            throw new IllegalArgumentException(&quot;Text is empty&quot;);</span>
+        }
+
+<span class="fc" id="L69">        return new StringBuilder(txt</span>
+<span class="fc" id="L70">                .toLowerCase()</span>
+<span class="fc" id="L71">                .replaceAll(&quot;[^a-z0-9]&quot;, &quot;&quot;))</span>
+<span class="fc" id="L72">                .reverse()</span>
+<span class="fc" id="L73">                .toString()</span>
+<span class="fc" id="L74">                .equals(txt.toLowerCase().replaceAll(&quot;[^a-z0-9]&quot;, &quot;&quot;));</span>
+    }
+
+    /**
+     * Checks if a string contains a substring that matches a given regular expression pattern.
+     *
+     * @param txt     the string to search
+     * @param pattern the regular expression pattern to match
+     * @return true if the pattern is found in the string, false otherwise
+     * @throws IllegalArgumentException if either the string or the pattern is null or empty
+     */
+    static boolean hasPattern(String txt, String pattern) {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (txt == null) {</span>
+<span class="fc" id="L87">            throw new IllegalArgumentException(&quot;Text is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (pattern == null) {</span>
+<span class="fc" id="L91">            throw new IllegalArgumentException(&quot;Pattern is null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (txt.isEmpty()) {</span>
+<span class="fc" id="L95">            throw new IllegalArgumentException(&quot;Text is empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (pattern.isEmpty()) {</span>
+<span class="fc" id="L99">            throw new IllegalArgumentException(&quot;Pattern is empty&quot;);</span>
+        }
+
+<span class="fc" id="L102">        Pattern pattern1 = Pattern.compile(pattern);</span>
+<span class="fc" id="L103">        Matcher matcher = pattern1.matcher(txt);</span>
+
+<span class="fc" id="L105">        return matcher.find();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

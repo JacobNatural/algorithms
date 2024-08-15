@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.app</groupId>
-    <artifactId>Algorithms_Maven</artifactId>
+    <artifactId>algorithms</artifactId>
     <version>${revision}</version>
 
 
@@ -15,7 +15,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <lombok.version>1.18.32</lombok.version>
+        <lombok.version>1.18.34</lombok.version>
         <junit.jupiter.version>5.11.0-M2</junit.jupiter.version>
         <assertj.core.version>3.25.3</assertj.core.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
@@ -25,6 +25,7 @@
         <mockito.junit.jupiter.version>5.4.0</mockito.junit.jupiter.version>
         <mockito.core.version>5.4.0</mockito.core.version>
         <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+        <maven.javadoc.plugin.version>3.8.0</maven.javadoc.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -206,6 +207,18 @@
                         </excludes>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.javadoc.plugin.version}</version>
+                    <configuration>
+                        <sourcepath>src/main/java</sourcepath>
+                        <subpackages>com.app</subpackages>
+                        <additionalOptions>
+                            <option>--enable-preview</option>
+                        </additionalOptions>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -228,6 +241,10 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

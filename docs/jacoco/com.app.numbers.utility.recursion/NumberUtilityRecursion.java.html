@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumberUtilityRecursion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">algorithms</a> &gt; <a href="index.source.html" class="el_package">com.app.numbers.utility.recursion</a> &gt; <span class="el_source">NumberUtilityRecursion.java</span></div><h1>NumberUtilityRecursion.java</h1><pre class="source lang-java linenums">package com.app.numbers.utility.recursion;
+
+/**
+ * A utility interface providing various recursive methods for mathematical and array operations.
+ * Methods include exponentiation, and finding the maximum and minimum values in an array.
+ */
+public interface NumberUtilityRecursion {
+
+    /**
+     * Calculates the result of raising a base number to a given exponent using recursion.
+     * This method performs exponentiation by squaring for efficiency.
+     *
+     * @param x        The base number.
+     * @param exponent The exponent to which the base number is raised. Must be non-negative.
+     * @return The result of {@code x} raised to the power of {@code exponent}.
+     * @throws IllegalArgumentException If the exponent is negative.
+     */
+    static long exponentiation(long x, int exponent) {
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (exponent &lt; 0) {</span>
+<span class="fc" id="L21">            throw new IllegalArgumentException(&quot;Exponent is negative&quot;);</span>
+        }
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (exponent == 0) {</span>
+<span class="fc" id="L24">            return 1;</span>
+        }
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (exponent % 2 == 1) {</span>
+<span class="fc" id="L28">            return x * exponentiation(x * x, exponent / 2);</span>
+        }
+
+<span class="fc" id="L31">        return exponentiation(x * x, exponent / 2);</span>
+    }
+
+    /**
+     * Finds the maximum value in an array of integers using recursion.
+     *
+     * @param numbers The array of integers. Must not be null or empty.
+     * @return The maximum value found in the array.
+     * @throws IllegalArgumentException If the array is null or empty.
+     */
+    static int getMax(int[] numbers) {
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (numbers == null) {</span>
+<span class="fc" id="L44">            throw new IllegalArgumentException(&quot;Array is null&quot;);</span>
+        }
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (numbers.length == 0) {</span>
+<span class="fc" id="L47">            throw new IllegalArgumentException(&quot;Array is empty&quot;);</span>
+        }
+
+<span class="fc" id="L50">        return getMax(numbers, 0, numbers.length - 1);</span>
+    }
+
+    /**
+     * Recursively finds the maximum value in a subarray defined by the given range.
+     *
+     * @param numbers   The array of integers.
+     * @param beginning The start index of the subarray.
+     * @param end       The end index of the subarray.
+     * @return The maximum value found in the subarray.
+     */
+    private static int getMax(int[] numbers, int beginning, int end) {
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (beginning == end) {</span>
+<span class="fc" id="L64">            return numbers[beginning];</span>
+        }
+
+<span class="fc" id="L67">        var middle = (beginning + end) / 2;</span>
+
+<span class="fc" id="L69">        var max1 = getMax(numbers, beginning, middle);</span>
+<span class="fc" id="L70">        var max2 = getMax(numbers, middle + 1, end);</span>
+
+<span class="fc" id="L72">        return Math.max(max1, max2);</span>
+    }
+
+    /**
+     * Finds the minimum value in an array of integers using recursion.
+     *
+     * @param numbers The array of integers. Must not be null or empty.
+     * @return The minimum value found in the array.
+     * @throws IllegalArgumentException If the array is null or empty.
+     */
+    static int getMin(int[] numbers) {
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (numbers == null) {</span>
+<span class="fc" id="L85">            throw new IllegalArgumentException(&quot;Array is null&quot;);</span>
+        }
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (numbers.length == 0) {</span>
+<span class="fc" id="L88">            throw new IllegalArgumentException(&quot;Array is empty&quot;);</span>
+        }
+
+<span class="fc" id="L91">        return getMin(numbers, 0, numbers.length - 1);</span>
+    }
+
+    /**
+     * Recursively finds the minimum value in a subarray defined by the given range.
+     *
+     * @param numbers   The array of integers.
+     * @param beginning The start index of the subarray.
+     * @param end       The end index of the subarray.
+     * @return The minimum value found in the subarray.
+     */
+    private static int getMin(int[] numbers, int beginning, int end) {
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (beginning == end) {</span>
+<span class="fc" id="L105">            return numbers[beginning];</span>
+        }
+
+<span class="fc" id="L108">        var middle = (beginning + end) / 2;</span>
+
+<span class="fc" id="L110">        var min1 = getMin(numbers, beginning, middle);</span>
+<span class="fc" id="L111">        var min2 = getMin(numbers, middle + 1, end);</span>
+
+<span class="fc" id="L113">        return Math.min(min1, min2);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

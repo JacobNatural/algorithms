@@ -71,4 +71,15 @@ public class RsaCipherTest {
         Assertions.assertThat(rsaCipher.decrypt(encrypted))
                 .isEqualTo(sentence);
     }
+
+    @Test
+    @DisplayName("When decrypting or formatting, the number is invalid")
+    public void test7(){
+
+        Assertions.assertThatThrownBy(() ->
+                rsaCipher.decrypt("3030a10"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Format of encrypted text is not valid!");
+
+    }
 }
